@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CRUDy.DataAccess;
-using CRUDy.Domain;
+using CRUDy.Features;
 using Optionally;
 
 namespace CRUDy
@@ -15,34 +12,27 @@ namespace CRUDy
         {
             while (true)
             {
-                DisplayMenu();
+                var features = new FeatureMap();
+                DisplayMenu(features.GetNames());
+
                 GetChoice()
-                    .Map(GetAction)
+                    .AndThen(features.GetAction)
                     .Match(s => () => Console.WriteLine(s),
-                        FunctionHelper.Identity)
+                        FunctionHelpers.Identity)
                     .Invoke();
             }
         }
 
-        private static Action GetAction(int choice)
+        private static void DisplayMenu(IEnumerable<string> names)
         {
-            var repo = new ItemRepository();
-            Action exit = () => Environment.Exit(0);
-            Action add = new Add.Screen(repo).Display;
-
-            return choice == 1 ? add : exit;
+            var i = 0;
+            names
+                .Select(x => $"{++i}). {x}")
+                .ToList()
+                .ForEach(Console.WriteLine);
         }
 
-        private static void DisplayMenu()
-        {
-            new List<string>
-            {
-                "1). Add an item.",
-                "2). Quit"
-            }.ForEach(Console.WriteLine);
-        }
-
-        private static IResult<string,int> GetChoice()
+        private static IResult<string, int> GetChoice()
         {
             var choice = Console.ReadLine();
             return !Int32.TryParse(choice, out int x)

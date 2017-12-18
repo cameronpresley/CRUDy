@@ -15,6 +15,11 @@ namespace CRUDy.Add
             _repo = repo;
         }
 
+        public Feature Create()
+        {
+            return new Feature("Add an item", Display);
+        }
+
         public void Display()
         {
             Console.WriteLine("What's the title?");
@@ -23,7 +28,7 @@ namespace CRUDy.Add
             var description = Console.ReadLine();
 
             CreateItem(title, description)
-                .BiMap(FormatErrors, FunctionHelper.Identity)
+                .BiMap(FormatErrors, FunctionHelpers.Identity)
                 .AndThen(_repo.Add)
                 .Match(ex => ex.Message, item => $"Successfully added item #{item.Id}")
                 .Apply(Console.WriteLine);

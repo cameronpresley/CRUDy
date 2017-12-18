@@ -2,7 +2,7 @@
 
 namespace CRUDy
 {
-    public static class FunctionHelper
+    public static class FunctionHelpers
     {
         public static U Apply<T, U>(this T value, Func<T, U> func)
         {

@@ -43,8 +43,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Add\Screen.cs" />
-    <Compile Include="FunctionHelper.cs" />
+    <Compile Include="Features\Add\Screen.cs" />
+    <Compile Include="Features\Exit\Screen.cs" />
+    <Compile Include="Feature.cs" />
+    <Compile Include="Features\FeatureFinder.cs" />
+    <Compile Include="FunctionHelpers.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
