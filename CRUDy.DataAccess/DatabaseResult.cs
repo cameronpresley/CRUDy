@@ -16,13 +16,8 @@ namespace CRUDy.DataAccess
         }
     }
 
-    public interface IDatabaseResult<T>
-    {
-        IDatabaseResult<U> Map<U>(Func<T, U> mapper);
-        IDatabaseResult<U> AndThen<U>(Func<T, IResult<Exception, U>> binder);
-        IDatabaseResult<T> Do(Action<Exception> onFailure, Action<T> onSuccess);
-        T1 Match<T1>(Func<Exception, T1> onFailure, Func<T, T1> onSuccess);
-    }
+    public interface IDatabaseResult<T> : IResult<Exception, T> { }
+
     internal class DatabaseResult<T> : IDatabaseResult<T>
     {
         private readonly IResult<Exception, T> _result;
@@ -32,17 +27,22 @@ namespace CRUDy.DataAccess
             _result = result;
         }
 
-        public IDatabaseResult<U> Map<U>(Func<T, U> mapper)
+        public IResult<Exception, U> Map<U>(Func<T, U> mapper)
         {
             return new DatabaseResult<U>(_result.Map(mapper));
         }
 
-        public IDatabaseResult<U> AndThen<U>(Func<T, IResult<Exception, U>> binder)
+        public IResult<UFailure, USuccess> BiMap<UFailure, USuccess>(Func<Exception, UFailure> mapFailure, Func<T, USuccess> mapSuccess)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IResult<Exception, U> AndThen<U>(Func<T, IResult<Exception, U>> binder)
         {
             return new DatabaseResult<U>(_result.AndThen(binder));
         }
 
-        public IDatabaseResult<T> Do(Action<Exception> onFailure, Action<T> onSuccess)
+        public IResult<Exception, T> Do(Action<Exception> onFailure, Action<T> onSuccess)
         {
             _result.Do(onFailure, onSuccess);
             return this;

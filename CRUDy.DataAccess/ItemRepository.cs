@@ -63,11 +63,11 @@ namespace CRUDy.DataAccess
         {
             const string query = "INSERT INTO Item (Title, Description) VALUES (@Title, @Description); SELECT SCOPE_IDENTITY();";
             Func<IDbConnection, int> getNewId = connection => connection.ExecuteScalar<int>(query, new { item.Title, item.Description });
-            return Execute(getNewId).Map(x =>
+            return Execute(getNewId).Map(id =>
             {
-                item.Id = x;
+                item.Id = id;
                 return item;
-            });
+            }) as IDatabaseResult<Item>;
         }
 
         public IDatabaseResult<Item> Edit(Item item)
