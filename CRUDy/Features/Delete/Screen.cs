@@ -5,7 +5,7 @@ using Optionally;
 
 namespace CRUDy.Features.Delete
 {
-    public class Screen
+    public class Screen : Feature
     {
         private readonly IItemRepository _repo;
 
@@ -14,21 +14,12 @@ namespace CRUDy.Features.Delete
             _repo = repo;
         }
 
-        public Feature Create()
-        {
-            return new Feature("Delete an item", Display);
-        }
-
         public void Display()
         {
-            Console.WriteLine("What's the id?");
-            Console.ReadLine()
-                .Apply(ParseId)
-                .AndThen(_repo.GetById)
+            new PromptForId.Workflow(_repo).Execute()
                 .AndThen(DeleteItem)
                 .Match(FormatError, FormatItem)
                 .Apply(Console.WriteLine);
-
         }
 
         private string FormatError(Exception ex) => ex.Message;
@@ -42,11 +33,7 @@ namespace CRUDy.Features.Delete
                     , item => _repo.Delete(item));
         }
 
-        private IResult<Exception, int> ParseId(string s)
-        {
-            return Int32.TryParse(s, out int x)
-                ? Result.Success<Exception, int>(x)
-                : Result.Failure<Exception, int>(new Exception("Failed to parse the id as a number."));
-        }
+        public string Name => "Delete an Item";
+        public Action Workflow => Display;
     }
 }

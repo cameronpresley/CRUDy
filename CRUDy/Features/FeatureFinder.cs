@@ -15,9 +15,10 @@ namespace CRUDy.Features
             var repo = new ItemRepository();
             _features = new Dictionary<int, Feature>
             {
-                {1, new Add.Screen(repo).Create() },
-                {2, new Delete.Screen(repo).Create() },
-                {3, new Exit.Screen().Create() },
+                {1, new Add.Screen(repo) },
+                {2, new Delete.Screen(repo) },
+                {3, new View.Screen(repo) },
+                {4, new Exit.Screen() },
             };
         }
 

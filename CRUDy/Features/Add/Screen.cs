@@ -4,9 +4,9 @@ using CRUDy.DataAccess;
 using CRUDy.Domain;
 using Optionally;
 
-namespace CRUDy.Add
+namespace CRUDy.Features.Add
 {
-    public class Screen
+    public class Screen : Feature
     {
         private readonly IItemRepository _repo;
 
@@ -15,10 +15,8 @@ namespace CRUDy.Add
             _repo = repo;
         }
 
-        public Feature Create()
-        {
-            return new Feature("Add an item", Display);
-        }
+        public string Name => "Add an Item";
+        public Action Workflow => Display;
 
         public void Display()
         {

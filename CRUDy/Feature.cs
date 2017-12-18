@@ -2,15 +2,9 @@
 
 namespace CRUDy
 {
-    public class Feature
+    public interface Feature
     {
-        public string Name { get; }
-        public Action Workflow { get; }
-
-        public Feature(string name, Action action)
-        {
-            Name = name;
-            Workflow = action;
-        }
+        string Name { get; }
+        Action Workflow { get; }
     }
 }

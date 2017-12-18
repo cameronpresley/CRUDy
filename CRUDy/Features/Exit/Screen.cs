@@ -1,12 +1,11 @@
 ﻿using System;
 
-namespace CRUDy.Exit
+namespace CRUDy.Features.Exit
 {
-    public class Screen
+    public class Screen : Feature
     {
-        public Feature Create()
-        {
-            return new Feature("Exit", () => Environment.Exit(0));
-        }
+        public string Name => "Exit";
+
+        public Action Workflow => () => Environment.Exit(0);
     }
 }
