@@ -32,7 +32,7 @@ namespace CRUDy.DataAccess
             var connectionString = new SqlConnectionStringBuilder
             {
                 DataSource = ".\\SQLEXPRESS",
-                InitialCatalog = "CRUDy.Database",
+                InitialCatalog = "CRUDy",
                 IntegratedSecurity = true,
             }.ConnectionString;
             try

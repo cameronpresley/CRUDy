@@ -32,6 +32,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Optionally, Version=2.2.1.0, Culture=neutral, PublicKeyToken=null" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -47,6 +48,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CRUDy.DataAccess\CRUDy.DataAccess.csproj">
+      <Project>{68A4040C-B9C6-470C-9B40-15E9957D0C24}</Project>
+      <Name>CRUDy.DataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CRUDy.Domain\CRUDy.Domain.csproj">
+      <Project>{73CFAC5E-DA6A-48EA-AD5D-B06312AADC9C}</Project>
+      <Name>CRUDy.Domain</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
