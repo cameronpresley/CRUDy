@@ -16,7 +16,8 @@ namespace CRUDy.Features
             _features = new Dictionary<int, Feature>
             {
                 {1, new Add.Screen(repo).Create() },
-                {2, new Exit.Screen().Create() },
+                {2, new Delete.Screen(repo).Create() },
+                {3, new Exit.Screen().Create() },
             };
         }
 
@@ -32,6 +33,11 @@ namespace CRUDy.Features
             return _features.ContainsKey(choice)
                 ? Result.Success<string, Action>(_features[choice].Workflow)
                 : Result.Failure<string, Action>("Couldn't find the workflow for the requested feature.");
+        }
+
+        public bool DoesFeatureExist(int feature)
+        {
+            return _features.ContainsKey(feature);
         }
     }
 }

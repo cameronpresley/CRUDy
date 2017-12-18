@@ -15,7 +15,7 @@ namespace CRUDy
                 var features = new FeatureMap();
                 DisplayMenu(features.GetNames());
 
-                GetChoice()
+                features.Apply(GetChoice)
                     .AndThen(features.GetAction)
                     .Match(s => () => Console.WriteLine(s),
                         FunctionHelpers.Identity)
@@ -32,13 +32,13 @@ namespace CRUDy
                 .ForEach(Console.WriteLine);
         }
 
-        private static IResult<string, int> GetChoice()
+        private static IResult<string, int> GetChoice(FeatureMap featureMap)
         {
             var choice = Console.ReadLine();
             return !Int32.TryParse(choice, out int x)
                 ? Result.Failure<string, int>("Couldn't parse " + choice + " as an integer")
-                : x == 1 || x == 2
-                    ? Result.Success<string, int>(x)
+                : featureMap.DoesFeatureExist(x) ?
+                    Result.Success<string, int>(x)
                     : Result.Failure<string, int>("Don't know the feature for choice #" + x);
         }
     }

@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Features\Add\Screen.cs" />
+    <Compile Include="Features\Delete\Screen.cs" />
     <Compile Include="Features\Exit\Screen.cs" />
     <Compile Include="Feature.cs" />
     <Compile Include="Features\FeatureFinder.cs" />
