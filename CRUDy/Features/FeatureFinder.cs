@@ -16,9 +16,10 @@ namespace CRUDy.Features
             _features = new Dictionary<int, Feature>
             {
                 {1, new Add.Screen(repo) },
-                {2, new Delete.Screen(repo) },
-                {3, new View.Screen(repo) },
-                {4, new Exit.Screen() },
+                {2, new Edit.Screen(repo) },
+                {3, new Delete.Screen(repo) },
+                {4, new View.Screen(repo) },
+                {5, new Exit.Screen() },
             };
         }
 

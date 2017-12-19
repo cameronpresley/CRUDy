@@ -11,23 +11,23 @@ namespace CRUDy.DataAccess
 {
     public interface IItemRepository
     {
-        IDatabaseResult<IEnumerable<Item>> GetAll();
-        IDatabaseResult<IOption<Item>> GetById(int id);
-        IDatabaseResult<Item> Add(Item item);
-        IDatabaseResult<Item> Edit(Item item);
-        IDatabaseResult<Item> Delete(Item item);
+        IResult<Exception, IEnumerable<Item>> GetAll();
+        IResult<Exception, IOption<Item>> GetById(int id);
+        IResult<Exception, Item> Add(Item item);
+        IResult<Exception, Item> Edit(Item item);
+        IResult<Exception, Item> Delete(Item item);
     }
 
     public class ItemRepository : IItemRepository
     {
-        public IDatabaseResult<IEnumerable<Item>> GetAll()
+        public IResult<Exception, IEnumerable<Item>> GetAll()
         {
             const string query = "SELECT Id, Title, Description FROM Item";
             Func<IDbConnection, IEnumerable<Item>> getAll = (connection) => connection.Query<Item>(query);
             return Execute(getAll);
         }
 
-        private IDatabaseResult<T> Execute<T>(Func<IDbConnection, T> method)
+        private IResult<Exception, T> Execute<T>(Func<IDbConnection, T> method)
         {
             var connectionString = new SqlConnectionStringBuilder
             {
@@ -39,16 +39,16 @@ namespace CRUDy.DataAccess
             {
                 using (IDbConnection connection = new SqlConnection(connectionString))
                 {
-                    return DatabaseResult.Success(method(connection));
+                    return Result.Success<Exception, T>(method(connection));
                 }
             }
             catch (Exception ex)
             {
-                return DatabaseResult.Failure<T>(ex);
+                return Result.Failure<Exception, T>(ex);
             }
         }
 
-        public IDatabaseResult<IOption<Item>> GetById(int id)
+        public IResult<Exception, IOption<Item>> GetById(int id)
         {
             const string query = "SELECT Id, Title, Description FROM Item WHERE Id=@Id";
             Func<IDbConnection, IOption<Item>> getById = connection =>
@@ -59,7 +59,7 @@ namespace CRUDy.DataAccess
             return Execute(getById);
         }
 
-        public IDatabaseResult<Item> Add(Item item)
+        public IResult<Exception, Item> Add(Item item)
         {
             const string query = "INSERT INTO Item (Title, Description) VALUES (@Title, @Description); SELECT SCOPE_IDENTITY();";
             Func<IDbConnection, int> getNewId = connection => connection.ExecuteScalar<int>(query, new { item.Title, item.Description });
@@ -67,10 +67,10 @@ namespace CRUDy.DataAccess
             {
                 item.Id = id;
                 return item;
-            }) as IDatabaseResult<Item>;
+            });
         }
 
-        public IDatabaseResult<Item> Edit(Item item)
+        public IResult<Exception, Item> Edit(Item item)
         {
             const string query = "UPDATE Item SET Title=@Title, Description=@Description WHERE Id=@Id";
             Func<IDbConnection, Item> edit = connection =>
@@ -81,7 +81,7 @@ namespace CRUDy.DataAccess
             return Execute(edit);
         }
 
-        public IDatabaseResult<Item> Delete(Item item)
+        public IResult<Exception, Item> Delete(Item item)
         {
             const string query = "DELETE FROM Item WHERE Id=@Id";
             Func<IDbConnection, Item> delete = connection =>

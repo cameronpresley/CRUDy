@@ -45,10 +45,12 @@
   <ItemGroup>
     <Compile Include="Features\Add\Screen.cs" />
     <Compile Include="Features\Delete\Screen.cs" />
+    <Compile Include="Features\Edit\Screen.cs" />
     <Compile Include="Features\Exit\Screen.cs" />
     <Compile Include="Feature.cs" />
     <Compile Include="Features\FeatureFinder.cs" />
     <Compile Include="Features\PromptForId\Workflow.cs" />
+    <Compile Include="Features\Validators.cs" />
     <Compile Include="Features\View\Screen.cs" />
     <Compile Include="FunctionHelpers.cs" />
     <Compile Include="Program.cs" />
